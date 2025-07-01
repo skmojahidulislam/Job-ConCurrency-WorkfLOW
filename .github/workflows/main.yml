@@ -1,0 +1,30 @@
+name: Job-Concurrency-WorkFlow
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: Deploy
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout-Reposioutry
+        uses: actions/checkout@v4.2.2
+      - name: SetUp-Node-Environment
+        uses: actions/setup-node@v3.9.1
+        with:
+          node-version: 22.x
+      - name: Install-Dependencies
+        run: npm install
+      - name: Next.js-Build
+        run: npm run build
+      - name: Print-Message
+        run: echo "App Deploy SuccessFull"
+        
+        
+       
